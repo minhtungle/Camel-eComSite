@@ -1,20 +1,16 @@
 const cache = {};
 
-function loadComponent(el, path) {
-    if (cache[path]) {
-        el.innerHTML = cache[path];
-        return;
-    }
+const BASE = window.location.hostname.includes('github.io')
+    ? '/Camel-eComSite'
+    : '';
 
-    fetch(path)
+function loadComponent(el, path) {
+    fetch(BASE + path)
         .then(res => {
             if (!res.ok) throw new Error('Failed: ' + path);
             return res.text();
         })
-        .then(data => {
-            cache[path] = data;
-            el.innerHTML = data;
-        })
+        .then(data => el.innerHTML = data)
         .catch(err => console.error(err));
 }
 
