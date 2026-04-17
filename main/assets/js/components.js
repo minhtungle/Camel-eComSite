@@ -32,8 +32,13 @@ const components = [
 
 components.forEach(name => {
     customElements.define(`site-${name}`, class extends HTMLElement {
+
         connectedCallback() {
-            loadComponent(this, `/main/components/${name}.html`);
+            const BASE = window.location.hostname.includes('github.io')
+                ? ''
+                : '/main';
+
+            loadComponent(this, `${BASE}/components/${name}.html`);
         }
     });
 });
